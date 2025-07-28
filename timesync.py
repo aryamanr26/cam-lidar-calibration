@@ -96,8 +96,17 @@ for pcd_file, ts_pcd in pcd_ts:
 # print(len(matched))
 
 # Copy matched files to sync folders
+index = 0
 for img_file, pcd_file in matched:
-    shutil.copy(img_file, os.path.join(SYNC_IMG_DIR, os.path.basename(img_file)))
+    # Split filename and extension
+    img_name, img_ext = os.path.splitext(os.path.basename(img_file))
+    # Format new filename: name_index.ext (e.g., image_0.png)
+    new_img_name = f"{img_name}_{index}{img_ext}"
+    shutil.copy(img_file, os.path.join(SYNC_IMG_DIR, new_img_name))
+
+    # Keep original PCD filename
     shutil.copy(pcd_file, os.path.join(SYNC_PCD_DIR, os.path.basename(pcd_file)))
+
+    index += 1
 
 print(f"✅ Synced {len(matched)} image-point cloud pairs.")
