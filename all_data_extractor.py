@@ -3,9 +3,28 @@
 # ROS 2 MCAP Extractor: Multi-Camera + LiDAR
 # - Extracts images from multiple camera topics (/arenacam1 to /arenacam6)
 # - Extracts point clouds from 4 LiDAR topics (front, back, left, right)
-# - Saves images in per-camera folders, point clouds in per-lidar folders
-# - Converts Bayer to BGR; writes extraction summary with topic mapping
-# - Flexible and scalable for general-purpose dataset processing
+
+How to use this script:
+# python3 all_data_extractor.py <input_mcap_file> [output_directory]
+#
+# Arguments:
+#   input_mcap_file    : Path to the .mcap file to extract data from
+#   output_directory   : (Optional) Directory where extracted data will be saved
+#                       Default: "extracted_data" in current directory
+#
+# Examples:
+#   python3 all_data_extractor.py data/camera_1_0.mcap
+#   python3 all_data_extractor.py data/camlidar_0.mcap ./mcap_extraction/
+#   python3 all_data_extractor.py /path/to/your/bag_file.mcap /path/to/output/
+#
+# Output structure:
+#   output_directory/
+#   └── cam_lidar_data/
+#       ├── images/
+#       │   ├── cam1/, cam2/, cam3/, cam4/, cam5/, cam6/
+#       ├── pointclouds/
+#       │   ├── front/, back/, left/, right/
+#       └── extraction_summary.txt
 '''
 
 import os
@@ -18,9 +37,6 @@ import cv2
 import numpy as np
 import struct
 from datetime import datetime
-
-# How to use?
-# python bagextractor.py [.mcap file] cam2_cal_data_0.mcap [storage_location]./mcap_extraction/
 
 class BagDataExtractor(Node):
     def __init__(self):

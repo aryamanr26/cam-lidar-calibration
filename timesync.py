@@ -1,26 +1,41 @@
+'''
+python3 your_script.py \
+  --folder cam_lidar_data \
+  --base_path july8 \
+  --img_dir july8/cam_lidar_data/images/cam6 \
+  --pcd_dir july8/cam_lidar_data/pointclouds/front \
+  --sync_img_dir july8/cam_lidar_data/synced/cam6/images \
+  --sync_pcd_dir july8/cam_lidar_data/synced/cam6/frontpointclouds
+
+'''
 import os
 import glob
 import shutil
+import argparse
 
-## CAHNGE ALL DIRECTORIES BEFORE RUNNING
-folder = "cam_lidar_data"
-IMG_DIR = f"july8/{folder}/images/cam6"
-PCD_DIR = f"july8/{folder}/pointclouds/front"  # Update which LIDAR you are using
-SYNC_IMG_DIR = f"july8/{folder}/synced/cam6/images"
-SYNC_PCD_DIR = f"july8/{folder}/synced/cam6/frontpointclouds"
+## CHANGE ALL DIRECTORIES BEFORE RUNNING
+parser = argparse.ArgumentParser(description="Synchronize camera and LiDAR data directories.")
+parser.add_argument('--base_path', required=True, help='Base path (e.g., july8/cam_lidar_data)')
+parser.add_argument('--img_dir', help='Image directory path')
+parser.add_argument('--pcd_dir', help='PointCloud directory path')
+parser.add_argument('--sync_img_dir', help='Output synced image directory')
+parser.add_argument('--sync_pcd_dir', help='Output synced pointcloud directory')
 
-# /home/mcity/Downloads/mcap_extraction/cam2_cal_data/images/image_000000_134339_018.png
+args = parser.parse_args()
 
-# camera 2 uses front lidar
-# camera 4 uses right lidar
-# camera 6 uses both front and right lidars
+# Set default paths if not provided
+IMG_DIR = args.base_path + args.img_dir or f"{args.base_path}/images/cam6"
+PCD_DIR = args.base_path + args.pcd_dir or f"{args.base_path}/pointclouds/front"
+SYNC_IMG_DIR = args.base_path + args.sync_img_dir or f"{args.base_path}synced/cam6/images"
+SYNC_PCD_DIR = args.base_path + args.sync_pcd_dir or f"{args.base_path}synced/cam6/frontpointclouds"
 
-# Camera - LIDAR Config
-#      1     2
-#   5     F     6
-#   3   L   R   4
-#         B
-#
+# Print confirmation
+print("\n--- Directory Configuration ---")
+print(f"Image Directory: {IMG_DIR}")
+print(f"Pointcloud Directory: {PCD_DIR}")
+print(f"Synced Image Directory: {SYNC_IMG_DIR}")
+print(f"Synced Pointcloud Directory: {SYNC_PCD_DIR}")
+print("--------------------------------\n")
 
 os.makedirs(SYNC_IMG_DIR, exist_ok=True)
 os.makedirs(SYNC_PCD_DIR, exist_ok=True)
@@ -82,7 +97,7 @@ for pcd_file, ts_pcd in pcd_ts:
 
 # Copy matched files to sync folders
 for img_file, pcd_file in matched:
-    #shutil.copy(img_file, os.path.join(SYNC_IMG_DIR, os.path.basename(img_file)))
+    shutil.copy(img_file, os.path.join(SYNC_IMG_DIR, os.path.basename(img_file)))
     shutil.copy(pcd_file, os.path.join(SYNC_PCD_DIR, os.path.basename(pcd_file)))
 
 print(f"✅ Synced {len(matched)} image-point cloud pairs.")
