@@ -8,13 +8,13 @@ Calibration pipeline for a multi-sensor rig (6 cameras, 4 LiDARs) with support f
 
 2. **Extract Sensor Data**  
    Use one of the following scripts to convert the `.mcap` data:
-   - `all_data_extractor.py`: Extracts both image (`.png`) and point cloud (`.pcd`) data.
+   - (Preferred) `all_data_extractor.py`: Extracts both image (`.png`) and point cloud (`.pcd`) data.
    - `bag_extractor.py`: Same as the above script but hardcoded for a few values only.
 
 3. **Compute Camera Intrinsics**  
    - Run `intrinsic_cam.py`  
    **OR**  
-   - Use the MATLAB Camera Calibration Toolbox for more flexibility and save the intrinsics as a `.mat` file.
+   - (Preferred) Use the **MATLAB Camera Calibration Toolbox** for more flexibility and save the intrinsics as a `.mat` file.
 
 4. **Camera-LiDAR Time Synchronization**  
    - Run `time_sync.py` to ensure equal number of samples for both camera and LiDAR data. Both data streams have different frequencies.
@@ -43,3 +43,6 @@ Calibration pipeline for a multi-sensor rig (6 cameras, 4 LiDARs) with support f
 
 9. **Save Results**  
    - Save the calibration variables (camera intrinsics & extrinsics) into a `.mat` file for later use.
+
+10. **Reprojection**
+   - Will soon update.
