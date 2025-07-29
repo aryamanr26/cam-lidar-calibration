@@ -45,9 +45,19 @@ CL4 = [ 0,     -1.0000,  0,      -2.3044; # right lidar
       1.0000, 0,      0,      18.2218;
       0,      0,      0,       1.0000];
 
-CL3 = ?
+CL5 = [ 0,    -1.0000,    0,     -2.7981; % left lidar
+      0,     0,        -1.0000, -1.8528;
+      1.0000, 0,         0,     12.2719;
+      0,     0,         0,      1.0000 ];
 
-CL5 & CL6 (with both lidars) = ?
+CL5 = [  0.5850,   0.0123,  -0.8109,  -4.4231; % front lidar
+       0.2019,  -0.9706,   0.1309,  -2.9397;
+      -0.7855,  -0.2404,  -0.5703,  21.0040;
+       0,        0,        0,       1.0000 ];
+
+
+
+CL6 (with both lidars) = ?
       
 LiDAR to LiDAR Extrinsic Calibration:
 # Front to Left Transformation (not fully optimized!)
